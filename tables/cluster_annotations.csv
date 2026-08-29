@@ -1,0 +1,21 @@
+cluster,n_cells,cell_type,positive_markers,conflicting_markers,confidence,rationale
+0,1881,Rods,"rp1l1b, pde6gb, aanat1",,high,Phototransduction markers; low mito (2.6%); largest healthy rod cluster.
+1,15,Unresolved,,"12462 genes/cell, 398k counts - ~100x dataset median",low,"15 cells with extreme counts and gene number; multiplets or gel-bead aggregates, not a cell type. Excluded from downstream analysis. This is the population the paper removed via scater doublet filtering."
+2,2433,Rods,"rho, pde6gb, guca1a, rbp3",,high,Canonical rod phototransduction programme; largest cluster.
+3,1274,Amacrine cells,"slc32a1, pax6a, elavl3, snap25a",,high,slc32a1 (VGAT) marks inhibitory neurons; pax6a and pan-neuronal snap25a/elavl3.
+4,1062,Rods (low quality),"rho, ppdpfa, pde6gb","mt-co2 is top marker, 12.6% median mito, 320 genes/cell",medium,Rod identity but mitochondrial-dominated and gene-poor; stressed/degraded cells passing the 15% threshold. Kept but excluded from rod sub-analysis.
+5,202,Erythrocytes,"hbba1, hbaa1, hbba2",,high,Haemoglobin genes; residual blood from dissection.
+6,1471,Muller glia,"rlbp1a, glula, mdka, crabp1a, fabp7a",,high,"MG identity (rlbp1a, glula, slc1a3b-family). Present at 5.5% in controls, so this is the main MG population, not an activated subset. mdka and crabp1a are elevated and both appear in the paper's EGFP-positive MG signature, but activation state is assessed in step 06 from EGFP and proliferation markers, not asserted here."
+7,336,Muller glia,"glula, rlbp1a, slc1a2b, pleca","2548 genes/cell, above neighbours",medium,Clear MG identity; high gene count may reflect RNA-rich glia or doublets.
+8,712,Unresolved,"tnr, pcdh8, map1b",no retinal type marker,low,Neuronal/adhesion genes without a defining retinal marker; candidate amacrine or horizontal but evidence insufficient.
+9,1574,Cones,"gnat2, pde6c, arr3a, gnb3b",,high,Cone transducin/PDE/arrestin programme.
+10,1040,Cones,"gnat2, pde6c, prph2a, grk1b",,high,Second cone cluster; subtype split examined in step 06.
+11,760,RPE,"tyrp1b, pmela, stra6, rgrb",,high,"Melanogenesis (tyrp1b, pmela) and retinoid transport (stra6)."
+12,87,RPE,"rpe65a, stra6, rlbp1b",2162 genes/cell,medium,rpe65a is definitive RPE; high gene count noted.
+13,1624,Bipolar cells,"cabp5a, grin1b, lrit1a",,high,cabp5a is a canonical bipolar marker; lrit1a is ON-bipolar associated.
+14,350,Unresolved,,"only cytoskeletal/housekeeping genes: actb1/2, pfn1, tmsb4x",low,No identity marker; likely stressed cells or ambient-dominated droplets.
+15,97,Retinal ganglion cells,"rbpms2b, gap43, islr2, elavl4",,medium,rbpms2b with gap43 supports RGC identity. Note: Bise et al. report RGCs were essentially not captured in their data; recovering 97 cells here is a difference from the published result.
+16,661,Microglia,"apoc1, ccl34b.1, apoeb",,high,apoc1 and the chemokine ccl34b.1 mark retinal macrophages.
+17,134,Bipolar cells,"trpm1b, cadpsa, syt5b",,high,trpm1b is the ON-bipolar transduction channel.
+18,51,Pericytes,"col1a1b, col1a2, pdgfra",pdgfra is fibroblast-leaning,low,"Collagen-producing mesenchymal cells; pericyte or fibroblast, 51 cells insufficient to distinguish."
+19,129,Oligodendrocytes,"mbpa, plp1b, cldnk",,high,Myelin basic protein and proteolipid; optic nerve head contamination.

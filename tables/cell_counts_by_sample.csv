@@ -1,0 +1,9 @@
+sample,condition,replicate,n_cells,pct_of_dataset
+ctrl1,ctrl,1,906,5.7
+ctrl2,ctrl,2,1609,10.12
+3dp1,3dp,1,2317,14.58
+3dp2,3dp,2,1844,11.6
+7dp1,7dp,1,2562,16.12
+7dp2,7dp,2,1165,7.33
+10dp1,10dp,1,3333,20.97
+10dp2,10dp,2,2157,13.57

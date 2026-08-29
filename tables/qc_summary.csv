@@ -1,0 +1,17 @@
+stage,sample,condition,n_cells,median_genes,median_counts,median_mt_percent,median_ribo_percent,median_hb_percent
+before_filter,ctrl1,ctrl,1155,574.0,1146.0,5.96,3.25,0.0
+before_filter,ctrl2,ctrl,2116,572.5,975.5,5.48,2.45,0.0
+before_filter,3dp1,3dp,2873,453.0,1095.0,8.74,6.9,0.0
+before_filter,3dp2,3dp,2388,597.5,1308.5,6.2,5.87,0.0
+before_filter,7dp1,7dp,3444,401.0,1012.5,10.3,8.93,0.0
+before_filter,7dp2,7dp,1480,594.0,1314.0,6.31,4.77,0.0
+before_filter,10dp1,10dp,4124,504.0,1232.0,8.09,8.03,0.0
+before_filter,10dp2,10dp,2517,599.0,1275.0,6.65,6.24,0.0
+after_filter,ctrl1,ctrl,906,614.5,993.5,4.76,3.57,0.0
+after_filter,ctrl2,ctrl,1609,638.0,987.0,3.94,2.74,0.0
+after_filter,3dp1,3dp,2317,448.0,945.0,7.33,7.52,0.0
+after_filter,3dp2,3dp,1844,674.0,1225.5,4.62,6.83,0.0
+after_filter,7dp1,7dp,2562,446.0,964.0,7.98,9.25,0.0
+after_filter,7dp2,7dp,1165,658.0,1189.0,4.97,5.09,0.0
+after_filter,10dp1,10dp,3333,525.0,1163.0,6.5,8.56,0.0
+after_filter,10dp2,10dp,2157,626.0,1222.0,5.7,6.59,0.0

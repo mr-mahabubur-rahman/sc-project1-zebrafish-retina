@@ -1,0 +1,10 @@
+question,answer
+1. Major retinal cell types detected,"['Amacrine cells', 'Bipolar cells', 'Cones', 'Erythrocytes', 'Microglia', 'Muller glia', 'Oligodendrocytes', 'Pericytes', 'RPE', 'Retinal ganglion cells', 'Rods', 'Rods (low quality)', 'Unresolved']"
+2. Muller glia identifiable,True
+3. EGFP concentrated in the expected population,"{'cell_type': 'Muller glia', 'n_cells': 1807, 'n_egfp_positive': 205, 'percent_positive': 11.34, 'enrichment_vs_dataset': 3.75, 'share_of_all_egfp_cells': 42.62}"
+4. EGFP changes across the time course,"[{'condition': 'ctrl', 'mean_percent_positive': 0.56}, {'condition': '3dp', 'mean_percent_positive': 5.4}, {'condition': '7dp', 'mean_percent_positive': 2.45}, {'condition': '10dp', 'mean_percent_positive': 2.8}]"
+5. Proliferation markers present,"['pcna', 'mki67']"
+6. Rod subclusters found,4
+7. Cone subclusters found,7
+8. Composition shifts,see tables/cell_type_proportions.csv (capture-bias caveat applies)
+9. Replicate vs condition effect,see tables/batch_diagnostics.csv

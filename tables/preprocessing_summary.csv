@@ -1,0 +1,2 @@
+n_cells,n_genes_in_X,n_genes_in_raw,target_sum,n_top_hvg_requested,hvg_batch_key,regress_out,regress_covariates,regress_on_hvg_subset,scale_max_value,layers_present
+15893,2000,22813,10000.0,2000,sample,True,"total_counts,pct_counts_mt",True,10.0,"counts,lognorm"

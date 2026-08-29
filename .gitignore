@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# Raw sequencing data -- NEVER committed. The matrices are large and are
+# distributed with the project / available from GEO GSE202212.
+# ---------------------------------------------------------------------------
+data/*
+!data/.gitkeep
+!data/README.md
+
+# ---------------------------------------------------------------------------
+# Generated AnnData checkpoints -- regenerable by re-running the notebooks.
+# Hundreds of MB each; committing them will exceed GitHub's 100 MB file limit.
+# ---------------------------------------------------------------------------
+results/*
+!results/.gitkeep
+*.h5ad
+
+# ---------------------------------------------------------------------------
+# Environment
+# ---------------------------------------------------------------------------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.cache/
+*.egg-info/
+
+# ---------------------------------------------------------------------------
+# OS / editor
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---------------------------------------------------------------------------
+# COMMITTED ON PURPOSE (listed here so the choice is visible, not accidental):
+#   notebooks/   -- the analysis itself, with outputs, so reviewers can read the
+#                   results without re-running an hour of compute
+#   scripts/     -- all reusable code
+#   tables/      -- small CSV outputs; these ARE the quantitative results
+#   figures/     -- PNG + PDF; these ARE the report figures
+#   docs/        -- session_info.json, method comparison, AI usage disclosure
+#   requirements.txt, pyproject.toml -- the environment
+# ---------------------------------------------------------------------------
