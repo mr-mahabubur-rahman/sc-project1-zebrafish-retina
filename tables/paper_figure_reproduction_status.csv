@@ -1,0 +1,22 @@
+paper_figure,content,status
+Fig 5C,UMAP atlas,content comparable; coordinates not reproducible by construction
+Fig 5D,canonical marker dot plot,reproduced
+Fig 5E,population % per timepoint,reproduced
+Fig 6B,rod paralog inversion,see printed verdict above
+Fig 6C/D,GO terms,"Enrichr, not topGO - different background and gene sets"
+Fig 6E,rod gene heatmap,reproduced
+Fig 6F,rod volcano,reproduced
+Fig 7B,opsin heatmap,reproduced
+Fig 7D,cone gene heatmap,reproduced
+Fig 7E/F,"cone volcano, GO",reproduced
+Fig 8A,EGFP+ cells on UMAP,reproduced
+Fig 8B,EGFP+ counts per timepoint,reproduced; values match within 0.2 percentage points
+Fig 8C,EGFP+ % per population,reproduced
+Fig 8E,EGFP+/- MG heatmap,see cell above
+Fig 6A,rod clusters highlighted on UMAP,reproduced
+Fig 7A,cone clusters highlighted on UMAP,reproduced
+Fig 8D,Muller glia cluster highlighted,reproduced
+Fig 5A,experimental design schematic,not data - a drawing; redraw for the Introduction if wanted
+Fig 5B,"immunofluorescence, inactivated-MNU control",no scRNA-seq counterpart
+Fig 7C,colour scale for 7B/7D,absorbed - each heatmap carries its own colorbar
+"Fig 1-4, 9-11","immunofluorescence, TOR, rapamycin",no scRNA-seq counterpart - not attempted

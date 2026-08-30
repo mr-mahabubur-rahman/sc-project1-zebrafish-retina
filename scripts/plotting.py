@@ -50,6 +50,31 @@ def set_style() -> None:
     sc.settings.autoshow = False
 
 
+
+def title_clear_of_content(fig: plt.Figure, text: str, position: str = "top",
+                           pad: float = 0.03, fontsize: int = 12) -> None:
+    """Place a title outside everything already drawn, measured rather than guessed.
+
+    Scanpy's dotplot and matrixplot carry rotated group-bracket labels whose height
+    depends on the label text -- "Retinal ganglion cells" reaches much higher than
+    "Bipolar cells". A fixed y offset therefore either overlaps the labels or
+    floats far above them. This renders once, measures the tight bounding box of
+    all artists, and places the title just beyond it.
+
+    Pass position="bottom" to put the title under the x tick labels instead.
+    """
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    bbox = fig.get_tightbbox(renderer)          # inches, from the figure origin
+    height = fig.get_figheight()
+    if position == "top":
+        fig.text(0.5, bbox.y1 / height + pad, text,
+                 ha="center", va="bottom", fontsize=fontsize)
+    else:
+        fig.text(0.5, bbox.y0 / height - pad, text,
+                 ha="center", va="top", fontsize=fontsize)
+
+
 def save_figure(fig: plt.Figure, name: str, subdir: str) -> list[Path]:
     """Write a figure as PNG and PDF into figures/<subdir>/ and return the paths."""
     if subdir not in cfg.FIGURE_DIRS:
@@ -203,9 +228,9 @@ def figure_03_markers(adata: ad.AnnData, marker_panel: dict[str, list[str]],
               for ct, genes in marker_panel.items()}
     usable = {ct: genes for ct, genes in usable.items() if genes}
     dp = sc.pl.dotplot(adata, var_names=usable, groupby=cluster_key,
-                       standard_scale="var", show=False, return_fig=True,
-                       title="Figure 3A | Canonical marker expression")
+                       standard_scale="var", show=False, return_fig=True)
     fig = dp.get_axes()["mainplot_ax"].get_figure()
+    title_clear_of_content(fig, "Figure 3A | Canonical marker expression")
     save_figure(fig, name, "markers")
     return fig
 
@@ -220,9 +245,9 @@ def figure_03_heatmap(adata: ad.AnnData, marker_panel: dict[str, list[str]],
     usable = {ct: genes for ct, genes in usable.items() if genes}
     hm = sc.pl.matrixplot(adata, var_names=usable, groupby=cluster_key,
                           standard_scale="var", cmap="viridis",
-                          show=False, return_fig=True,
-                          title="Figure 3B | Mean scaled marker expression")
+                          show=False, return_fig=True)
     fig = hm.get_axes()["mainplot_ax"].get_figure()
+    title_clear_of_content(fig, "Figure 3B | Mean scaled marker expression")
     save_figure(fig, name, "markers")
     return fig
 
@@ -311,9 +336,9 @@ def figure_04_activation_markers(adata: ad.AnnData, genes: list[str] | None = No
         raise ValueError("None of the requested activation markers are available.")
     group_key = "cell_type" if "cell_type" in adata.obs else cfg.LEIDEN_KEY
     dp = sc.pl.dotplot(adata, var_names=plot_vars, groupby=group_key,
-                       standard_scale="var", show=False, return_fig=True,
-                       title="Figure 4E | EGFP and activation/proliferation markers")
+                       standard_scale="var", show=False, return_fig=True)
     fig = dp.get_axes()["mainplot_ax"].get_figure()
+    title_clear_of_content(fig, "Figure 4E | EGFP and activation/proliferation markers")
     save_figure(fig, name, "egfp_mg")
     return fig
 

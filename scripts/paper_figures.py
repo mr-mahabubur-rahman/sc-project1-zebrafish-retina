@@ -33,7 +33,7 @@ from anndata import AnnData
 
 from . import config as cfg
 from .io_utils import check_genes_available
-from .plotting import save_figure
+from .plotting import save_figure, title_clear_of_content
 
 # The paper's figures live in their own directory so they are never confused with
 # the project's own Figures 1-5.
@@ -48,6 +48,7 @@ def _save(fig: plt.Figure, name: str) -> plt.Figure:
                     dpi=cfg.FIGURE_DPI, bbox_inches="tight")
     print(f"Saved {name} -> figures/paper_figure_reproduction/")
     return fig
+
 
 
 def _dense(adata: AnnData, genes: list[str], use_raw: bool = True) -> pd.DataFrame:
@@ -92,9 +93,11 @@ def figure_5d_marker_dotplot(adata: AnnData, group_key: str = "cell_type",
         else:
             print(f"[Fig 5D] no marker available for '{cell_type}'; omitted.")
     dp = sc.pl.dotplot(source, var_names=usable, groupby=group_key,
-                       standard_scale="var", show=False, return_fig=True,
-                       title="Fig 5D equivalent | canonical markers")
+                       standard_scale="var", show=False, return_fig=True)
     fig = dp.get_axes()["mainplot_ax"].get_figure()
+    # Scanpy places a `title=` with set_title, which lands on top of the rotated
+    # group brackets. A suptitle above the whole figure clears them.
+    title_clear_of_content(fig, "Fig 5D equivalent | canonical markers")
     return _save(fig, "fig5D_marker_dotplot")
 
 
@@ -170,9 +173,9 @@ def figure_6b_paralog_dotplot(rods: AnnData, group_key: str = "subcluster") -> p
     source = rods.raw.to_adata() if rods.raw is not None else rods
     source.obs = rods.obs.copy()
     dp = sc.pl.dotplot(source, var_names=present, groupby=group_key,
-                       standard_scale="var", show=False, return_fig=True,
-                       title="Fig 6B equivalent | rod paralog pairs")
+                       standard_scale="var", show=False, return_fig=True)
     fig = dp.get_axes()["mainplot_ax"].get_figure()
+    title_clear_of_content(fig, "Fig 6B equivalent | rod paralog pairs")
     _save(fig, "fig6B_rod_paralog_dotplot")
 
     print("\nParalog inversion test (mean log-normalised expression):")

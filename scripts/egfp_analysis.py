@@ -282,9 +282,8 @@ def mg_state_evidence(
     not resolve three populations.
     """
     genes = cfg.MG_IDENTITY_MARKERS + cfg.ACTIVATION_MARKERS
-    present, _ = check_genes_available(mg, genes, label="MG state panel")
     source = mg.raw.to_adata() if mg.raw is not None else mg
-    present = [g for g in present if g in source.var_names]
+    present, _ = check_genes_available(source, genes, label="MG state panel")
 
     X = source[:, present].X
     dense = np.asarray(X.todense()) if hasattr(X, "todense") else np.asarray(X)
@@ -345,9 +344,12 @@ def rod_heterogeneity_evidence(
     panel = ["rho", "rhol", "pde6ga", "pde6gb", "guca1a", "guca1b",
              "meig1", "ppdpfa", "rom1b", "gnat1", "gngt1", "nr2e3",
              "sagb", "rcvrna", "gnb1a", "crx", "prom1"]
-    present, _ = check_genes_available(rods, panel, label="rod maturity panel")
+    # Check availability against the FULL gene set (.raw), not the HVG subset:
+    # meig1, rom1b and guca1b are rarely selected as highly variable, and checking
+    # the subset first silently dropped exactly the genes the paper's rod
+    # comparison depends on.
     source = rods.raw.to_adata() if rods.raw is not None else rods
-    present = [g for g in present if g in source.var_names]
+    present, _ = check_genes_available(source, panel, label="rod maturity panel")
     X = source[:, present].X
     dense = np.asarray(X.todense()) if hasattr(X, "todense") else np.asarray(X)
     df = pd.DataFrame(dense, columns=present, index=rods.obs_names)
@@ -376,9 +378,8 @@ def cone_subtype_evidence(
 
     panel = ["opn1sw1", "opn1sw2", "opn1mw1", "opn1mw2", "opn1lw1", "opn1lw2",
              "arr3a", "arr3b", "tbx2a", "cngb3.2", "guca1e", "gnat2", "pde6c"]
-    present, _ = check_genes_available(cones, panel, label="cone subtype panel")
     source = cones.raw.to_adata() if cones.raw is not None else cones
-    present = [g for g in present if g in source.var_names]
+    present, _ = check_genes_available(source, panel, label="cone subtype panel")
     X = source[:, present].X
     dense = np.asarray(X.todense()) if hasattr(X, "todense") else np.asarray(X)
     df = pd.DataFrame(dense, columns=present, index=cones.obs_names)
