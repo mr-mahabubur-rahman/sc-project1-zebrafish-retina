@@ -45,6 +45,7 @@ re-run on its own.
 | `step_04_PCA_UMAP_and_Clustering.ipynb` | PCA, batch diagnostics, UMAP, Leiden | `results/04_clustered.h5ad`, Figure 2 |
 | `step_05_Cell_Type_Annotation_and_Marker_Discovery.ipynb` | markers, panel scores, annotation, proportions | `results/05_annotated.h5ad`, Figures 3 and 5 |
 | `step_06_EGFP_and_Muller_Glia_Dynamics.ipynb` | EGFP, MG sub-states, rods, cones, validation | `results/06_mg_egfp.h5ad`, Figure 4 |
+| `step_07_Paper_Figure_Reproduction.ipynb` | Bise et al. Fig 5, 6, 7, 8 panels | `figures/paper_figure_reproduction/` |
 
 Notebooks are generated from `tools/build_notebooks.py`, so their content is
 reviewable as plain text. `python tools/build_notebooks.py --force` regenerates
