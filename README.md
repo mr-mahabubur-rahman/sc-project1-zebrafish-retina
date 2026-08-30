@@ -1,12 +1,12 @@
-﻿# Zebrafish retina regeneration â€” single-cell RNA-seq analysis
+# Zebrafish retina regeneration  single-cell RNA-seq analysis
 
 Reanalysis of `careg:EGFP` adult zebrafish retina scRNA-seq across an MNU
 photoreceptor-injury time course (control, 3, 7 and 10 days post-injury; two
 replicates each).
 
 Primary reference: Bise T, Pfefferli C, Bonvin M, Taylor L, Lischer HEL,
-Bruggmann R, JaÅºwiÅ„ska A (2023). *The regeneration-responsive element careg
-monitors activation of MÃ¼ller glia after MNU-induced damage of photoreceptors in
+Bruggmann R, Jawiska A (2023). *The regeneration-responsive element careg
+monitors activation of Mller glia after MNU-induced damage of photoreceptors in
 the zebrafish retina.* Front. Mol. Neurosci. 16:1160707.
 doi:10.3389/fnmol.2023.1160707. Data: GEO **GSE202212**.
 
@@ -48,7 +48,7 @@ re-run on its own.
 
 Notebooks are generated from `tools/build_notebooks.py`, so their content is
 reviewable as plain text. `python tools/build_notebooks.py --force` regenerates
-them (this discards any manual edits â€” put lasting changes in the builder or in
+them (this discards any manual edits  put lasting changes in the builder or in
 `scripts/`).
 
 ---
@@ -57,26 +57,26 @@ them (this discards any manual edits â€” put lasting changes in the builder
 
 ```
 project1_zebrafish_retina/
-â”œâ”€â”€ data/                 8 x 10x filtered matrices          [git-ignored]
-â”œâ”€â”€ notebooks/            the seven analysis notebooks
-â”œâ”€â”€ scripts/              all reusable logic
-â”‚   â”œâ”€â”€ config.py         paths, parameters, colours, marker panels
-â”‚   â”œâ”€â”€ io_utils.py       discovery, loading, metadata, EGFP detection, checkpoints
-â”‚   â”œâ”€â”€ qc.py             QC metrics, threshold diagnostics, filtering
-â”‚   â”œâ”€â”€ preprocessing.py  layers, normalisation, HVG, scaling
-â”‚   â”œâ”€â”€ clustering.py     PCA, batch diagnostics, integration, UMAP, Leiden
-â”‚   â”œâ”€â”€ annotation.py     marker discovery, panel scoring, annotation record
-â”‚   â”œâ”€â”€ egfp_analysis.py  EGFP positivity, MG sub-states, rod/cone analysis
-â”‚   â””â”€â”€ plotting.py       style, PNG+PDF saving, the five figures
-â”œâ”€â”€ tools/build_notebooks.py
-â”œâ”€â”€ tables/               CSV results                        [committed]
-â”œâ”€â”€ figures/              PNG + PDF                          [committed]
-â”œâ”€â”€ results/              .h5ad checkpoints                  [git-ignored]
-â”œâ”€â”€ docs/
-â”‚   â”œâ”€â”€ method_comparison.md      paper vs guide vs this pipeline
-â”‚   â”œâ”€â”€ ai_usage_disclosure.md    appendix template
-â”‚   â””â”€â”€ session_info.json         package versions            [generated]
-â”œâ”€â”€ pyproject.toml Â· requirements.txt Â· .gitignore Â· LICENSE
+ data/                 8 x 10x filtered matrices          [git-ignored]
+ notebooks/            the seven analysis notebooks
+ scripts/              all reusable logic
+    config.py         paths, parameters, colours, marker panels
+    io_utils.py       discovery, loading, metadata, EGFP detection, checkpoints
+    qc.py             QC metrics, threshold diagnostics, filtering
+    preprocessing.py  layers, normalisation, HVG, scaling
+    clustering.py     PCA, batch diagnostics, integration, UMAP, Leiden
+    annotation.py     marker discovery, panel scoring, annotation record
+    egfp_analysis.py  EGFP positivity, MG sub-states, rod/cone analysis
+    plotting.py       style, PNG+PDF saving, the five figures
+ tools/build_notebooks.py
+ tables/               CSV results                        [committed]
+ figures/              PNG + PDF                          [committed]
+ results/              .h5ad checkpoints                  [git-ignored]
+ docs/
+    method_comparison.md      paper vs guide vs this pipeline
+    ai_usage_disclosure.md    appendix template
+    session_info.json         package versions            [generated]
+ pyproject.toml  requirements.txt  .gitignore  LICENSE
 ```
 
 **Committed:** notebooks, scripts, tables, figures, docs, environment files.
@@ -90,9 +90,9 @@ project1_zebrafish_retina/
 | # | Question | Notebook | Output |
 |---|---|---|---|
 | 1 | Major retinal cell types | 05 | Figure 3, `cluster_annotations.csv` |
-| 2 | Composition across ctrl â†’ 3dp â†’ 7dp â†’ 10dp | 05 | Figure 5, `cell_type_proportions.csv` |
-| 3 | EGFPâº populations and dynamics | 06 | Figure 4, `egfp_summary.csv` |
-| 4 | MÃ¼ller glia sub-states | 06 | Figure 4F, `mg_substate_evidence.csv` |
+| 2 | Composition across ctrl  3dp  7dp  10dp | 05 | Figure 5, `cell_type_proportions.csv` |
+| 3 | EGFP populations and dynamics | 06 | Figure 4, `egfp_summary.csv` |
+| 4 | Mller glia sub-states | 06 | Figure 4F, `mg_substate_evidence.csv` |
 | 5 | Rod and cone injury response | 06 | `rod_subcluster_evidence.csv`, `*_injury_response_de.csv` |
 
 ## Figures
@@ -104,7 +104,7 @@ project1_zebrafish_retina/
 | 3 | marker dotplot, matrixplot, annotated UMAP | `plotting.figure_03_*` (nb 05) | `figures/figure_03_markers/` |
 | 4 | EGFP UMAP, by timepoint, positive fraction, by cell type, activation markers, MG sub-states | `plotting.figure_04_*` (nb 06) | `figures/figure_04_egfp_mg/` |
 | 5 | composition per sample, proportion trajectories with replicate range | `plotting.figure_05_proportions` (nb 05) | `figures/figure_05_cell_proportions/` |
-| S1â€“S2 | HVG diagnostic, PCA elbow | `plotting.figure_hvg`, `figure_pca_variance` | `figures/figure_01_qc/`, `figure_02_umap/` |
+| S1S2 | HVG diagnostic, PCA elbow | `plotting.figure_hvg`, `figure_pca_variance` | `figures/figure_01_qc/`, `figure_02_umap/` |
 
 Every figure is written as **PNG (300 dpi) and vector PDF**, with editable text
 (`pdf.fonttype = 42`).
@@ -116,13 +116,13 @@ Every figure is written as **PNG (300 dpi) and vector PDF**, with editable text
 | `qc_summary.csv` | per-sample cells/genes/counts/mito/ribo, before and after filtering | 02 |
 | `cell_counts_by_sample.csv` | cells by sample, condition, replicate | 02 |
 | `batch_diagnostics.csv` | PC variance explained by condition / replicate / sample | 04 |
-| `leiden_resolution_sweep.csv` | cluster counts across resolutions 0.2â€“1.0 | 04 |
+| `leiden_resolution_sweep.csv` | cluster counts across resolutions 0.21.0 | 04 |
 | `cluster_composition.csv` | sample composition of each cluster | 04 |
 | `marker_genes.csv` | ranked markers per cluster (Wilcoxon) | 05 |
 | `cluster_annotations.csv` | cluster, cell type, markers, confidence, rationale | 05 |
 | `cell_type_proportions.csv` | proportions per sample and replicate | 05 |
-| `egfp_summary.csv` | EGFPâº counts and fractions by sample Ã— condition Ã— cell type | 06 |
-| `egfp_enrichment_by_cell_type.csv` | EGFPâº enrichment per cell type | 06 |
+| `egfp_summary.csv` | EGFP counts and fractions by sample  condition  cell type | 06 |
+| `egfp_enrichment_by_cell_type.csv` | EGFP enrichment per cell type | 06 |
 | `mg_substate_evidence.csv` | MG subcluster marker and condition profile | 06 |
 | `rod_subcluster_evidence.csv` / `cone_subcluster_evidence.csv` | photoreceptor subcluster profiles | 06 |
 | `*_injury_response_de.csv` | per-cell-type DE, each timepoint vs control | 06 |
@@ -143,7 +143,7 @@ markdown and the Methods section. Nothing is changed silently.
 
 Two deviations are already documented in the code:
 
-1. `regress_out` runs after HVG subsetting rather than on all genes â€” same
+1. `regress_out` runs after HVG subsetting rather than on all genes  same
    covariates, same result, hours faster (`cfg.REGRESS_ON_HVG_SUBSET`).
 2. Batch integration is **off by default** and decided from diagnostics, because
    condition and sequencing run are confounded in this design
@@ -165,7 +165,7 @@ exact embedding coordinates may not be.
 
 Stated here as well as in the report, because they bound what can be concluded:
 
-1. **No doublet detection** (the paper filtered ~12 Â± 2% of cells as doublets or
+1. **No doublet detection** (the paper filtered ~12  2% of cells as doublets or
    dying). Clusters with mixed identity markers may be doublets.
 2. **Not SCTransform.** Log-normalisation is a different estimator; cluster
    boundaries will not match the paper's exactly.
@@ -176,8 +176,8 @@ Stated here as well as in the report, because they bound what can be concluded:
    Compositional data also mean one type's over-capture depresses all others.
 5. **Cell-level DE overstates significance** with n = 2 replicates per condition;
    pseudobulk would be the correct design. Rankings are descriptive.
-6. **No recovery claim is possible** â€” the series ends at day 10, while the
-   paper's structural restoration is at 30â€“40 dpMNU by immunofluorescence.
+6. **No recovery claim is possible**  the series ends at day 10, while the
+   paper's structural restoration is at 3040 dpMNU by immunofluorescence.
 
 ## AI usage
 
