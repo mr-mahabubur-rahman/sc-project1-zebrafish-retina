@@ -7,7 +7,7 @@ cluster,n_cells,cell_type,positive_markers,conflicting_markers,confidence,ration
 5,202,Erythrocytes,"hbba1, hbaa1, hbba2",,high,Haemoglobin genes; residual blood from dissection.
 6,1471,Muller glia,"rlbp1a, glula, mdka, crabp1a, fabp7a",,high,"MG identity (rlbp1a, glula). Present at 5.5% of control cells, so this is the main MG population, not an activated subset. mdka and crabp1a are elevated and both appear in the paper's EGFP-positive MG signature, but activation state is assessed in step 06 from EGFP and proliferation markers, not asserted here."
 7,336,Muller glia,"glula, rlbp1a, slc1a2b, pleca","2548 genes/cell, above neighbours",medium,Clear MG identity; high gene count may reflect RNA-rich glia or doublets.
-8,712,Unresolved,"tnr, pcdh8, map1b",no retinal type marker,low,Neuronal/adhesion genes without a defining retinal marker; candidate amacrine or horizontal but evidence insufficient.
+8,712,Horizontal cells,"cx52.6, rem1, tnr, pcdh8",cabp5a 0.77 - present but well below bipolar clusters,medium,"cx52.6 (1.010) and rem1 (1.342) are 5-10x higher than in any other cluster; cx52.6 encodes a connexin specific to zebrafish horizontal cell gap junctions. Neuronal adhesion genes (tnr, pcdh8, map1b) among the top markers are consistent with an interneuron. cabp5a is present but far below the bipolar clusters, excluding bipolar identity."
 9,1574,Cones,"gnat2, pde6c, arr3a, gnb3b",,high,Cone transducin/PDE/arrestin programme.
 10,1040,Cones,"gnat2, pde6c, prph2a, grk1b",,high,Second cone cluster; subtype split examined in step 06.
 11,760,RPE,"tyrp1b, pmela, stra6, rgrb",,high,"Melanogenesis (tyrp1b, pmela) and retinoid transport (stra6)."

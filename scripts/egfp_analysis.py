@@ -153,6 +153,28 @@ def egfp_enrichment_by_cluster(
     return df.sort_values("percent_positive", ascending=False)
 
 
+
+def _de_source(adata: ad.AnnData) -> tuple[bool, str | None]:
+    """Decide whether differential expression should read .raw or a layer.
+
+    After HVG subsetting, adata.layers["lognorm"] still exists but covers only the
+    2,000 selected genes, while .raw retains the full log-normalised matrix. Simply
+    testing whether the layer is present therefore silently restricts every DE test
+    to HVG space -- which excludes most of the transcriptome, including genes the
+    published comparison reports. Prefer .raw whenever it is larger.
+    """
+    if adata.raw is not None and adata.raw.n_vars > adata.n_vars:
+        return True, None                      # use_raw=True, layer=None
+    if "lognorm" in adata.layers:
+        return False, "lognorm"
+    if adata.raw is not None:
+        return True, None
+    raise KeyError(
+        "No log-normalised matrix reachable for differential expression: neither "
+        ".raw nor a 'lognorm' layer is present."
+    )
+
+
 def egfp_de_within_group(
     adata: ad.AnnData, group_value: str, group_key: str = "cell_type",
     min_cells: int = 30,
@@ -175,10 +197,12 @@ def egfp_de_within_group(
         return pd.DataFrame()
 
     subset.obs["egfp_group"] = np.where(subset.obs["egfp_positive"], "EGFP_pos", "EGFP_neg")
-    use_raw = subset.raw is not None and "lognorm" not in subset.layers
+    use_raw, layer = _de_source(subset)
+    print(f"  DE over {subset.raw.n_vars if use_raw else subset.n_vars} genes "
+          f"({'.raw' if use_raw else 'layer ' + str(layer)})")
     sc.tl.rank_genes_groups(
         subset, groupby="egfp_group", groups=["EGFP_pos"], reference="EGFP_neg",
-        method=cfg.DE_METHOD, layer=None if use_raw else "lognorm", use_raw=use_raw,
+        method=cfg.DE_METHOD, layer=layer, use_raw=use_raw,
     )
     df = sc.get.rank_genes_groups_df(subset, group="EGFP_pos")
     df = df.rename(columns={"names": "gene", "scores": "score",
@@ -415,10 +439,12 @@ def injury_response_de(
         return pd.DataFrame()
 
     subset.obs["_grp"] = subset.obs["condition"].astype(str)
-    use_raw = subset.raw is not None and "lognorm" not in subset.layers
+    use_raw, layer = _de_source(subset)
+    print(f"  DE over {subset.raw.n_vars if use_raw else subset.n_vars} genes "
+          f"({'.raw' if use_raw else 'layer ' + str(layer)})")
     sc.tl.rank_genes_groups(
         subset, groupby="_grp", groups=[condition], reference=reference,
-        method=cfg.DE_METHOD, layer=None if use_raw else "lognorm", use_raw=use_raw,
+        method=cfg.DE_METHOD, layer=layer, use_raw=use_raw,
     )
     df = sc.get.rank_genes_groups_df(subset, group=condition)
     df = df.rename(columns={"names": "gene", "scores": "score",

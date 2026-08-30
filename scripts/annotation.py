@@ -43,13 +43,23 @@ def rank_markers(
     if groupby not in adata.obs:
         raise KeyError(f"'{groupby}' is not a column of adata.obs.")
 
-    use_raw = adata.raw is not None and layer not in adata.layers
+    # Prefer .raw whenever it holds more genes than .X. After HVG subsetting the
+    # 'lognorm' layer still exists but covers only the 2,000 selected genes, so
+    # testing for the layer alone would confine marker discovery to HVG space and
+    # hide every marker that was not selected as highly variable.
+    if adata.raw is not None and adata.raw.n_vars > adata.n_vars:
+        use_raw, layer_arg = True, None
+    elif layer in adata.layers:
+        use_raw, layer_arg = False, layer
+    else:
+        use_raw, layer_arg = adata.raw is not None, None
     sc.tl.rank_genes_groups(
         adata, groupby=groupby, method=method,
-        layer=None if use_raw else layer, use_raw=use_raw,
+        layer=layer_arg, use_raw=use_raw,
         key_added="rank_genes_groups",
     )
-    source = ".raw (lognorm, all genes)" if use_raw else f"layers['{layer}']"
+    n = adata.raw.n_vars if use_raw else adata.n_vars
+    source = f".raw ({n} genes)" if use_raw else f"layers['{layer}'] ({n} genes)"
     print(f"Ranked markers for '{groupby}' with {method} on {source}.")
     return adata
 

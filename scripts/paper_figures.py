@@ -498,12 +498,25 @@ def go_enrichment_bar(genes: list[str], title: str, filename: str,
         print("[GO] gseapy is not installed; skipping enrichment.")
         return None
 
-    try:
-        res = gp.enrichr(gene_list=list(genes), gene_sets=gene_sets,
-                         organism="Fish", outdir=None)
-        table = res.results
-    except Exception as exc:  # network, API change, empty result
-        print(f"[GO] Enrichment unavailable ({type(exc).__name__}: {exc}). "
+    # gseapy validates the organism string case-sensitively and the accepted
+    # spelling has changed between versions ('Fish' in older releases,
+    # 'zebrafish'/'fish' in 1.3+). Try the current names in order rather than
+    # failing on the first rejection.
+    table = None
+    last_error = None
+    for organism in ("zebrafish", "fish", "Fish"):
+        try:
+            res = gp.enrichr(gene_list=list(genes), gene_sets=gene_sets,
+                             organism=organism, outdir=None)
+            table = res.results
+            print(f"[GO] Enrichr query accepted with organism='{organism}'.")
+            break
+        except Exception as exc:      # invalid organism, network, API change
+            last_error = exc
+            continue
+
+    if table is None:
+        print(f"[GO] Enrichment unavailable ({type(last_error).__name__}: {last_error}). "
               "Report GO analysis as not performed rather than omitting silently.")
         return None
 

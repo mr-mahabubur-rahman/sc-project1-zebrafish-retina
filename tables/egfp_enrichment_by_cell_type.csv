@@ -4,8 +4,9 @@ Pericytes,51,3,5.88,1.94,0.62
 Retinal ganglion cells,97,5,5.15,1.7,1.04
 Amacrine cells,1274,48,3.77,1.24,9.98
 Cones,2614,83,3.18,1.05,17.26
-Unresolved,1077,27,2.51,0.83,5.61
+Horizontal cells,712,19,2.67,0.88,3.95
 Oligodendrocytes,129,3,2.33,0.77,0.62
+Unresolved,365,8,2.19,0.72,1.66
 Bipolar cells,1758,33,1.88,0.62,6.86
 Microglia,661,12,1.82,0.6,2.49
 Rods (low quality),1062,12,1.13,0.37,2.49
