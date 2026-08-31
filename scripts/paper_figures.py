@@ -236,7 +236,14 @@ def volcano(de_df: pd.DataFrame, title: str, filename: str,
     if de_df is None or len(de_df) == 0:
         raise ValueError(f"No differential expression rows supplied for '{title}'.")
     df = de_df.copy()
-    df["padj"] = df["pval_adj"].replace(0, np.nextafter(0, 1))
+    # p-values reported as exactly 0 are below floating-point resolution, not
+    # truly zero; -log10(0) is infinite and would be silently dropped by
+    # matplotlib. Substitute the smallest positive p-value in the table so the
+    # point is drawn at the top of the plotted range rather than disappearing.
+    positive = df.loc[df["pval_adj"] > 0, "pval_adj"]
+    p_floor = float(positive.min()) if len(positive) else 1e-300
+    n_at_floor = int((df["pval_adj"] <= 0).sum())
+    df["padj"] = df["pval_adj"].replace(0, p_floor)
     df["neglog10"] = -np.log10(df["padj"])
     df["direction"] = np.where(
         (df["pval_adj"] < padj_cut) & (df["logfoldchange"] >= lfc_cut), "up",
@@ -258,6 +265,18 @@ def volcano(de_df: pd.DataFrame, title: str, filename: str,
                     fontsize=6.5, style="italic",
                     xytext=(3, 3), textcoords="offset points")
 
+    # Genes that fail significance can carry extreme fold changes when expression
+    # is near zero in one group, which stretches the x-axis and compresses the
+    # informative region into a narrow band. Set the limits from the significant
+    # genes instead, so no significant point is ever cut off.
+    sig = df[df["direction"] != "ns"]
+    n_hidden = 0
+    if len(sig):
+        span = float(np.nanmax(np.abs(sig["logfoldchange"])))
+        lim = max(span * 1.25, lfc_cut * 4)
+        n_hidden = int((np.abs(df["logfoldchange"]) > lim).sum())
+        ax.set_xlim(-lim, lim)
+
     ax.set_xlabel("log2 fold change")
     ax.set_ylabel("-log10 adjusted p-value")
     ax.set_title(title)
@@ -268,6 +287,13 @@ def volcano(de_df: pd.DataFrame, title: str, filename: str,
     n_down = int((df["direction"] == "down").sum())
     print(f"{title}: {n_up} up, {n_down} down "
           f"(|log2FC| >= {lfc_cut}, padj < {padj_cut})")
+    if n_hidden:
+        print(f"  x-axis limited to the range of significant genes; {n_hidden} "
+              "non-significant gene(s) with extreme fold change fall outside it. "
+              "State this in the figure caption.")
+    if n_at_floor:
+        print(f"  {n_at_floor} gene(s) had p-values below floating-point resolution "
+              f"and are plotted at the table minimum ({p_floor:.1e}).")
     print("  Reminder: these p-values come from a cell-level test with n = 2 "
           "replicates per condition, so they overstate significance. Treat the "
           "ranking as descriptive.")
@@ -524,13 +550,45 @@ def go_enrichment_bar(genes: list[str], title: str, filename: str,
         print(f"[{title}] Enrichr returned no terms.")
         return None
 
-    table = table.nsmallest(top_n, "P-value").iloc[::-1]
-    fig, ax = plt.subplots(figsize=(7.5, 0.45 * len(table) + 2))
-    ax.barh(table["Term"].str.slice(0, 55), -np.log10(table["P-value"]),
-            color="#F4C430", edgecolor="#8B6914")
+    table = table.nsmallest(top_n, "P-value").iloc[::-1].copy()
+
+    # Enrichr returns exactly 0 for the most significant terms. -log10(0) is
+    # infinite, and matplotlib silently omits those bars — which previously left
+    # the strongest terms out of the figure entirely. Substitute the smallest
+    # positive p-value among the plotted terms so every bar is drawn, and mark
+    # the substituted ones so the figure does not overstate their precision.
+    pvals = table["P-value"].astype(float)
+    positive = pvals[pvals > 0]
+    p_floor = float(positive.min()) if len(positive) else 1e-300
+    at_floor = (pvals <= 0).to_numpy()
+    heights = -np.log10(pvals.replace(0, p_floor))
+
+    # Wrap long GO term names over two lines rather than truncating them.
+    import textwrap
+    labels = ["\n".join(textwrap.wrap(t, 46)[:2]) for t in table["Term"]]
+
+    fig, ax = plt.subplots(figsize=(8.4, 0.62 * len(table) + 1.8))
+    bars = ax.barh(range(len(table)), heights,
+                   color="#F4C430", edgecolor="#8B6914")
+    for bar, floored in zip(bars, at_floor):
+        if floored:
+            bar.set_hatch("//")
+    ax.set_yticks(range(len(table)))
+    ax.set_yticklabels(labels, fontsize=8)
     ax.set_xlabel("-log10 p-value")
     ax.set_title(title)
+
+    if at_floor.any():
+        ax.text(0.99, 0.02,
+                f"hatched: p below floating-point resolution, plotted at "
+                f"{p_floor:.1e}",
+                transform=ax.transAxes, ha="right", va="bottom",
+                fontsize=7, color="#555555", style="italic")
+        print(f"[GO] {int(at_floor.sum())} term(s) had p = 0 (below floating-point "
+              f"resolution) and are plotted at {p_floor:.1e}, hatched in the figure.")
+
     fig.tight_layout()
+    print(f"[GO] {len(table)} terms plotted from {len(genes)} input genes.")
     return _save(fig, filename)
 
 

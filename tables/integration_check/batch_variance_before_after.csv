@@ -1,0 +1,7 @@
+embedding,factor,mean_variance_explained
+uncorrected,condition,0.0201
+uncorrected,replicate,0.0023
+uncorrected,sample,0.0244
+harmony,condition,0.0041
+harmony,replicate,0.0016
+harmony,sample,0.006

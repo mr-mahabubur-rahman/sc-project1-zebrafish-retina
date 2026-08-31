@@ -1,0 +1,6 @@
+quantity,uncorrected,integrated,changed
+Number of clusters,20,22.0,True
+Adjusted Rand index between partitions,—,0.6112,True
+Integrated clusters mixing >1 cell type (purity <0.8),—,3.0,True
+"EGFP time course, max difference (pp)",—,0.0,False
+Rod paralog pairs splitting (of 3),1,1.0,False

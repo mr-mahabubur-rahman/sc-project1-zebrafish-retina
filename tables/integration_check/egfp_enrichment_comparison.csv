@@ -1,0 +1,28 @@
+cell_type,n_cells,n_pos,pct_positive,analysis
+Muller glia,1807,205,11.34,uncorrected
+Rods,4314,47,1.09,uncorrected
+Cones,2614,83,3.18,uncorrected
+Bipolar cells,1758,33,1.88,uncorrected
+Amacrine cells,1274,48,3.77,uncorrected
+Horizontal cells,712,19,2.67,uncorrected
+Retinal ganglion cells,97,5,5.15,uncorrected
+Microglia,661,12,1.82,uncorrected
+Oligodendrocytes,129,3,2.33,uncorrected
+Erythrocytes,202,1,0.5,uncorrected
+Pericytes,51,3,5.88,uncorrected
+RPE,847,2,0.24,uncorrected
+Unresolved,365,8,2.19,uncorrected
+Rods (low quality),1062,12,1.13,uncorrected
+Amacrine cells,1255,34,2.71,integrated
+Bipolar cells,1976,54,2.73,integrated
+Cones,2885,92,3.19,integrated
+Erythrocytes,205,1,0.49,integrated
+Horizontal cells,612,21,3.43,integrated
+Microglia,930,13,1.4,integrated
+Muller glia,1611,198,12.29,integrated
+Oligodendrocytes,133,2,1.5,integrated
+Pericytes,61,3,4.92,integrated
+RPE,825,2,0.24,integrated
+Retinal ganglion cells,39,1,2.56,integrated
+Rods,5277,54,1.02,integrated
+Unresolved,84,6,7.14,integrated

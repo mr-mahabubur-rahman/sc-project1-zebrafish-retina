@@ -1,0 +1,9 @@
+analysis,condition,mean_pct_positive,min_pct,max_pct
+uncorrected,ctrl,0.56,0.55,0.56
+uncorrected,3dp,5.39,3.63,7.16
+uncorrected,7dp,2.45,1.46,3.43
+uncorrected,10dp,2.8,2.16,3.43
+integrated,ctrl,0.56,0.55,0.56
+integrated,3dp,5.39,3.63,7.16
+integrated,7dp,2.45,1.46,3.43
+integrated,10dp,2.8,2.16,3.43
