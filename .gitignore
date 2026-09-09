@@ -9,11 +9,14 @@ data/*
 # ---------------------------------------------------------------------------
 # Generated AnnData checkpoints -- regenerable by re-running the notebooks.
 # Hundreds of MB each; committing them will exceed GitHub's 100 MB file limit.
+# The tables and figures now living under results/ ARE committed, hence the
+# negations below: they must follow results/* to take effect.
 # ---------------------------------------------------------------------------
 results/*
 !results/.gitkeep
+!results/tables/
+!results/figures/
 *.h5ad
-
 # ---------------------------------------------------------------------------
 # Environment
 # ---------------------------------------------------------------------------

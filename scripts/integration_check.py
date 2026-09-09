@@ -39,7 +39,7 @@ from . import clustering, egfp_analysis
 from .io_utils import check_genes_available
 
 # Separate output directory so the primary results are never overwritten.
-INT_RESULTS = cfg.REPO_ROOT / "results_integrated"
+INT_RESULTS = cfg.RESULTS_DIR / "integrated"
 INT_TABLES = cfg.TABLES_DIR / "integration_check"
 
 

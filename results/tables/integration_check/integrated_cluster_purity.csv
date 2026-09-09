@@ -1,0 +1,23 @@
+integrated_cluster,n_cells,majority_cell_type,purity,second_type,second_frac
+3,3604,Rods,0.73,Rods (low quality),0.256
+1,2432,Cones,0.917,Horizontal cells,0.041
+0,1690,Rods,0.956,Muller glia,0.018
+7,1475,Muller glia,0.849,Rods (low quality),0.056
+5,1295,Bipolar cells,0.874,Amacrine cells,0.087
+4,998,Microglia,0.652,Unresolved,0.323
+11,849,Amacrine cells,0.868,Retinal ganglion cells,0.075
+10,830,RPE,0.986,Rods (low quality),0.006
+8,641,Horizontal cells,0.939,Muller glia,0.051
+14,312,Amacrine cells,0.92,Muller glia,0.026
+15,292,Cones,1.0,,0.0
+12,250,Muller glia,0.968,Amacrine cells,0.032
+9,205,Erythrocytes,0.98,Rods (low quality),0.005
+21,189,Bipolar cells,0.968,Amacrine cells,0.011
+17,182,Bipolar cells,0.978,Muller glia,0.011
+13,148,Bipolar cells,0.946,Amacrine cells,0.047
+18,133,Oligodendrocytes,0.94,Muller glia,0.023
+19,100,Muller glia,0.8,Amacrine cells,0.15
+6,86,Bipolar cells,0.965,Amacrine cells,0.023
+20,81,Amacrine cells,0.975,Muller glia,0.025
+16,62,Pericytes,0.823,Muller glia,0.129
+2,39,Retinal ganglion cells,0.615,Muller glia,0.154

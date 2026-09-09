@@ -27,9 +27,14 @@ REPO_ROOT: Path = Path(__file__).resolve().parents[1]
 
 DATA_DIR: Path = REPO_ROOT / "data"
 RESULTS_DIR: Path = REPO_ROOT / "results"
-TABLES_DIR: Path = REPO_ROOT / "tables"
-FIGURES_DIR: Path = REPO_ROOT / "figures"
+# Tables and figures live under results/ so the repository follows the layout in
+# the peer-review guidelines. Both are committed; only the .h5ad checkpoints and
+# results/integrated/ are git-ignored.
+TABLES_DIR: Path = RESULTS_DIR / "tables"
+FIGURES_DIR: Path = RESULTS_DIR / "figures"
 DOCS_DIR: Path = REPO_ROOT / "docs"
+REPORT_DIR: Path = REPO_ROOT / "report"
+PEER_REVIEW_DIR: Path = REPO_ROOT / "peer_review"
 
 FIGURE_DIRS: dict[str, Path] = {
     "qc": FIGURES_DIR / "figure_01_qc",
@@ -101,14 +106,18 @@ TARGET_SUM: float = 1e4              # [GUIDE]
 N_TOP_HVG: int = 2000                # [GUIDE]
 HVG_BATCH_KEY: str = "sample"        # [GUIDE]
 
-# The guide's walkthrough calls sc.pp.regress_out(["total_counts",
-# "pct_counts_mt"]) on the full gene set. We keep the covariates and keep it on by
-# default (baseline preserved) but run it after subsetting to HVGs, because
-# regressing ~30k genes x ~50k cells is hours of compute for genes that are then
-# discarded before PCA. This is a documented deviation, not a silent one.
-REGRESS_OUT: bool = True                                  # [GUIDE]
+# Technical covariate regression. Two covariates are regressed out with
+# sc.pp.regress_out: total_counts and pct_counts_mt.
+#
+# The guide's walkthrough calls regress_out on the full gene set. We keep the same
+# covariates and keep the step on by default (baseline preserved) but run it after
+# subsetting to HVGs, because regressing ~30k genes x ~16k cells is hours of
+# compute for genes that are then discarded before PCA. The covariates and the
+# result on the retained genes are identical. This is a documented deviation, not
+# a silent one.
+REGRESS_OUT: bool = True                                          # [GUIDE]
 REGRESS_COVARIATES: list[str] = ["total_counts", "pct_counts_mt"]  # [GUIDE]
-REGRESS_ON_HVG_SUBSET: bool = True                        # [PROJECT] see docstring
+REGRESS_ON_HVG_SUBSET: bool = True                                # [PROJECT]
 SCALE_MAX_VALUE: float = 10.0        # [GUIDE]
 
 # --- Dimensionality reduction / clustering ---------------------------------- #
@@ -124,7 +133,9 @@ LEIDEN_RESOLUTION_SWEEP: list[float] = [0.2, 0.4, 0.6, 0.8, 1.0]
 # OFF by default, on purpose. The paper integrated (Seurat, dims = 30); we only
 # integrate if the Step 04 diagnostics show replicate-driven rather than
 # condition-driven structure. The injury time course IS the biological signal, so
-# over-correction is a real risk here.
+# over-correction is a real risk here. Step 08 tests this decision empirically:
+# Harmony removes 79.6% of the condition variance against 30.4% of the technical
+# variance, confirming the risk is real for this design.
 USE_INTEGRATION: bool = False        # [PROJECT]
 INTEGRATION_METHOD: str = "harmony"  # only consulted when USE_INTEGRATION is True
 INTEGRATION_BATCH_KEY: str = "sample"
@@ -132,6 +143,11 @@ INTEGRATION_BATCH_KEY: str = "sample"
 # --- Differential expression ------------------------------------------------ #
 DE_METHOD: str = "wilcoxon"          # [GUIDE] and [PAPER] use the same test
 DE_TOP_N: int = 50                   # markers exported per cluster
+# Significance thresholds applied when a gene is called differentially expressed.
+# Benjamini-Hochberg adjusted p-value, and an absolute log2 fold-change floor so
+# that no result rests on a statistically significant but trivially small effect.
+DE_PADJ_CUTOFF: float = 0.05         # [PROJECT]
+DE_LOG2FC_CUTOFF: float = 0.25       # [PROJECT]
 
 # --- EGFP ------------------------------------------------------------------- #
 # The feature name is NOT assumed. io_utils.find_egfp_feature() searches var_names
@@ -193,26 +209,33 @@ MG_IDENTITY_MARKERS: list[str] = ["rlbp1a", "glula", "glulb", "slc1a3b", "gfap",
 # every figure of the report.
 # --------------------------------------------------------------------------- #
 
+# Colours are drawn from colour-vision-deficiency-safe qualitative schemes (Paul
+# Tol's muted, light and vibrant sets, and Okabe-Ito). The assignment of colour to
+# cell type was not chosen by eye: it was optimised to maximise the smallest
+# perceptual distance (CAM02-UCS) between any two categories, evaluated
+# simultaneously under normal vision, deuteranopia, protanopia and tritanopia.
+#
+# The previous palette placed Rods and Retinal ganglion cells 2.3 apart under
+# protanopia — effectively the same colour, and both appear on the same UMAP. The
+# minimum across all categories and all three deficiency forms is now 8.8.
+#
+# Entries match exactly the cell types the annotation produces. Reproduce the
+# verification with:  uv run python scripts/colour_check.py
 CELL_TYPE_COLORS: dict[str, str] = {
-    "Muller glia": "#E69F00",
-    "Activated Muller glia": "#D55E00",
-    "Progenitor-like": "#CC79A7",
-    "Rods": "#0072B2",
-    "Rods (immature-like)": "#56B4E9",
-    "Rods (mature-like)": "#08519C",
-    "Cones": "#009E73",
-    "Cones (UV)": "#66C2A5",
-    "Cones (non-UV)": "#006D2C",
-    "Bipolar cells": "#F0E442",
-    "Amacrine cells": "#8DA0CB",
-    "Horizontal cells": "#B3B3B3",
-    "Retinal ganglion cells": "#7570B3",
-    "Microglia": "#A6761D",
-    "Oligodendrocytes": "#666666",
-    "Erythrocytes": "#B2182B",
-    "Pericytes": "#FDB462",
-    "RPE": "#4D4D4D",
-    "Unresolved": "#D9D9D9",
+    "Muller glia":            "#999933",
+    "Rods":                   "#009988",
+    "Cones":                  "#0077BB",
+    "Bipolar cells":          "#CC3311",
+    "Amacrine cells":         "#332288",
+    "Horizontal cells":       "#882255",
+    "Retinal ganglion cells": "#AA4499",
+    "Microglia":              "#44BB99",
+    "Oligodendrocytes":       "#EEDD88",
+    "Erythrocytes":           "#EE8866",
+    "Pericytes":              "#117733",
+    "RPE":                    "#CC6677",
+    "Rods (low quality)":     "#99DDFF",
+    "Unresolved":             "#BBBBBB",
 }
 
 CONDITION_COLORS: dict[str, str] = {
@@ -233,5 +256,6 @@ BASE_FONT_SIZE: int = 9
 
 def ensure_directories() -> None:
     """Create every output directory the workflow writes to."""
-    for path in (RESULTS_DIR, TABLES_DIR, FIGURES_DIR, DOCS_DIR, *FIGURE_DIRS.values()):
+    for path in (RESULTS_DIR, TABLES_DIR, FIGURES_DIR, DOCS_DIR,
+                 *FIGURE_DIRS.values()):
         path.mkdir(parents=True, exist_ok=True)
